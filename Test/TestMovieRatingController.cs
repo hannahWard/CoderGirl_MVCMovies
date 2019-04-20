@@ -4,6 +4,7 @@ using Xunit;
 using CoderGirl_MVCMovies.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Test
 {
@@ -60,7 +61,7 @@ namespace Test
         [Fact]
         public void Test_GET_Create_ContainsForm_WithSelectElement_ContainingRatings()
         {
-            string[] expectedRatings = ["1", "2", "3", "4", "5"];
+            string[] expectedRatings = { "1", "2", "3", "4", "5" };
 
             ContentResult result = (ContentResult)controller.Create();
 
@@ -74,9 +75,10 @@ namespace Test
         [Fact]
         public void Test_GET_Create_ContainsForm_WithSubmitButton()
         {
-            ContentResult result = (ContentResult)controller.Create();
+            IActionResult result = controller.Create();
 
-            HtmlNode submitBtn = HtmlNode.CreateNode(result.Content).ChildNodes.FirstOrDefault(node => node.Name == "button");
+            ContentResult content = Assert.IsType<ContentResult>(result);
+            HtmlNode submitBtn = HtmlNode.CreateNode(content.Content).ChildNodes.FirstOrDefault(node => node.Name == "button");
             Assert.NotNull(submitBtn);
             Assert.Equal("submit", submitBtn.Attributes.SingleOrDefault(attr => attr.Name == "type").Value.ToLower());
         }
@@ -86,7 +88,12 @@ namespace Test
         [InlineData("The Princess Bride", "4")]
         public void Test_POST_Create_RedirectsTo_GETDetails_WithInputValues(string movieName, string rating)
         {
+            IActionResult result = controller.Create(movieName, rating);
 
+            var redirect = Assert.IsType<RedirectToActionResult>(result);
+            Assert.Equal("Details", redirect.ActionName);
+            Assert.Equal(new KeyValuePair<string, object>("movieName", movieName), redirect.RouteValues.First());
+            Assert.Equal(new KeyValuePair<string, object>("rating", rating), redirect.RouteValues.Skip(1).Take(1).First());
         }
 
         [Theory]
@@ -94,10 +101,12 @@ namespace Test
         [InlineData("The Princess Bride", "4")]
         public void Test_GET_Details(string movieName, string rating)
         {
-            string expectedString = $"{movieName} has a rating of {rating}.";
+            string expectedString = $"{movieName} has a rating of {rating}";
 
-            
+            IActionResult result = controller.Details(movieName, rating);
 
+            ContentResult content = Assert.IsType<ContentResult>(result);
+            Assert.Equal(expectedString, content.Content);
         }
     }
 }
