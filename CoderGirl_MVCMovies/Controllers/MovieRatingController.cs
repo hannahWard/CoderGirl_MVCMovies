@@ -35,7 +35,7 @@ namespace CoderGirl_MVCMovies.Controllers
         [HttpGet]
         public IActionResult Details(string movieName, string rating)
         {
-            return Content(@"{movieName} has a rating of {rating}.");
+            return Content($"{movieName} has a rating of {rating}");
         }
 
         public IActionResult Index()
