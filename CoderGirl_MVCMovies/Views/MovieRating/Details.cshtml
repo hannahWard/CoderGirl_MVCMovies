@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Rate A Movie</h1>
+
+@foreach (var movie in ViewBag.Movies)
+{
+    @foreach (var movieRating in ViewBag.MovieRatings)
+    {
+        @if (ViewBag.Id == movie.Key && ViewBag.Id == movieRating.Key)
+        {
+            string movieName = movie.Value;
+            string rating = movieRating.Value;
+            <h2>@movieName has a rating of @rating</h2>
+        }
+
+    }
+}
+
+
+<a asp-controller="MovieRating" asp-action="Index">Rated Movies</a>
+
