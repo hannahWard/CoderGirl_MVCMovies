@@ -13,7 +13,7 @@ namespace CoderGirl_MVCMovies.Data
         /// If the movie name and/or rating are null or empty, nothing should be saved and it should return 0
         /// </summary>
         /// <param name="movieName"></param>
-        /// <param name="rating"></param>
+        /// <param name="rating"></param>C:\Users\formo\Desktop\CoderGirl\Visual Studio Practice\MVCMovies\CoderGirl_MVCMovies\Data\IMovieRatingRepository.cs
         /// <returns></returns>
         int SaveRating(string movieName, int rating);
 

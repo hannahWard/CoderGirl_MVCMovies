@@ -27,9 +27,9 @@ namespace Test
         }
 
         [Theory]
-        [InlineData("Star Wars", "5")]
-        [InlineData("The Princess Bride", "4")]
-        public void Test_POST_Create_RedirectsTo_GETDetails_WithInputValues(string movieName, string rating)
+        [InlineData("Star Wars", 5)]
+        [InlineData("The Princess Bride", 4)]
+        public void Test_POST_Create_RedirectsTo_GETDetails_WithInputValues(string movieName, int rating)
         {
             IActionResult result = controller.Create(movieName, rating);
 
@@ -40,9 +40,9 @@ namespace Test
         }
 
         [Theory]
-        [InlineData("Star Wars", "5")]
-        [InlineData("The Princess Bride", "4")]
-        public void Test_GET_Details(string movieName, string rating)
+        [InlineData("Star Wars", 5)]
+        [InlineData("The Princess Bride", 4)]
+        public void Test_GET_Details(string movieName, int rating)
         {
             string expectedString = $"{movieName} has a rating of {rating}";
 

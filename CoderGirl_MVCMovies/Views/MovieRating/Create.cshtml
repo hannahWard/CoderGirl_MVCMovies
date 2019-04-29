@@ -10,7 +10,7 @@
     <select name="movieName">
         @foreach (var movie in ViewBag.Movies)
         {
-            <option id="movie.Key">@movie.Value</option>
+            <option id="movie.Id">@movie.MovieName</option>
         }
     </select>
     <select name="rating">

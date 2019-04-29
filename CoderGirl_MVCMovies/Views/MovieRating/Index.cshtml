@@ -8,7 +8,7 @@
 
 
 <table>
-    
+
     <tr>
         <th>Movie Name</th>
         <th>Movie Rating</th>
@@ -19,21 +19,24 @@
     @foreach (var movie in ViewBag.Movies)
     {
         <tr>
-            <td id="movie.Key">@movie.Value</td>
-        @foreach (var movieRating in ViewBag.MovieRatings)
-        {
-            @if(movie.Key == movieRating.Key)
-            {
-        <td id="movieRating.Key">@movieRating.Value</td>
-            }
-            else
-            {
-                continue;
-            }
+            <td id="movie.Id">@movie.MovieName</td>
+            <td id="movie.Id">@movie.MovieRating</td>
 
-        }
         </tr>
     }
-    
+
 </table>
+
+@*@foreach (var movieRating in ViewBag.MovieRatings)
+{
+    @if (movie.Key == movieRating.Key)
+    {
+        <td id="movieRating.Key">@movieRating.Value</td>
+    }
+    else
+    {
+        continue;
+    }
+
+}*@
 
