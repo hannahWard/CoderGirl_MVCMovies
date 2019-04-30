@@ -4,18 +4,8 @@
 }
 
 <h1>Rate A Movie</h1>
+
 <h2>@ViewBag.MovieName has a rating of @ViewBag.MovieRating</h2>
-
-@*@foreach (var movie in ViewBag.Movies)
-{
-    @if (movie.Id == ViewBag.Id)
-    {
-        <h2>@movie.Name has a rating of @movie.Rating</h2>
-    }
-}*@
-
-    
-
 
 <a asp-controller="MovieRating" asp-action="Index">Rated Movies</a>
 

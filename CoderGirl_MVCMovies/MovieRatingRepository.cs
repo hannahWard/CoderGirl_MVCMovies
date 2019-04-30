@@ -9,13 +9,6 @@ namespace CoderGirl_MVCMovies.Views.MovieRating
     public class MovieRatingRepository : IMovieRatingRepository
     {
         
-        public decimal GetAverageRatingByMovieName(string movieName)
-        {
-
-            return (decimal)Controllers.MovieController.movies.Where(p => p.Name == movieName).Select(p => p.Rating).Average();
-            
-        }
-
         public List<int> GetIds()
         {
             List<int> getIds = new List<int>();
@@ -43,11 +36,6 @@ namespace CoderGirl_MVCMovies.Views.MovieRating
             return name;
         }
 
-        public int GetRatingById(int id)
-        {
-            return int.Parse(Controllers.MovieController.movies.Where(p => p.Id == id).Select(p => p.Rating).ToString());
-        }
-
         public int SaveRating(string movieName, int rating)
         {
             if (String.IsNullOrEmpty(movieName) == false && rating != 0)
@@ -60,6 +48,19 @@ namespace CoderGirl_MVCMovies.Views.MovieRating
                 return movie.Id;
             }
             else return 0;
+        }
+
+        public int GetRatingById(int id)
+        {
+            string getRating = Controllers.MovieController.movies.Where(p => p.Id == id).Select(p => p.Rating).ToString();
+            return int.Parse(getRating);
+        }
+
+        
+
+        double IMovieRatingRepository.GetAverageRatingByMovieName(string movieName)
+        {
+            return Controllers.MovieController.movies.Where(p => p.Name == movieName).Select(p => p.Rating).Average();
         }
     }
 }
