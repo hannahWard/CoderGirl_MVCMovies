@@ -52,8 +52,8 @@ namespace CoderGirl_MVCMovies.Views.MovieRating
 
         public int GetRatingById(int id)
         {
-            string getRating = Controllers.MovieController.movies.Where(p => p.Id == id).Select(p => p.Rating).ToString();
-            return int.Parse(getRating);
+            var getRating = Controllers.MovieController.movies.Where(p => p.Id == id).Select(p => p.Rating).ToList();
+            return getRating[0];
         }
 
         
