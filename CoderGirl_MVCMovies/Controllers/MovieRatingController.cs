@@ -36,20 +36,12 @@ namespace CoderGirl_MVCMovies.Controllers
             return View();
         }
 
-        
+        // TODO: Save the movie/rating in the MovieRatingRepository before redirecting to the Details page
+        // TODO: Redirect passing only the id of the created movie/rating
         [HttpPost]
         public IActionResult Create(string movieName, int rating)
         {
-            
-            Movie movie = new Movie();
-            movie.Name = movieName;
-            movie.Rating = rating;
-            movie.Id = Controllers.MovieController.nextIdToUse++;
-            movies.Add(movie);
-            
-            
-            return RedirectToAction(actionName: nameof(Details), new { movieName = movie.Name , rating = movie.Rating});
-            
+            return RedirectToAction(actionName: nameof(Details), routeValues: new { movieName, rating });
         }
 
         
