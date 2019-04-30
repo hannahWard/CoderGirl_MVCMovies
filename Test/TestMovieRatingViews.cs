@@ -58,7 +58,7 @@ namespace Test
             var source = driver.PageSource;
 
             //Verify the first row has proper headers
-            Assert.Equal("Movie" headers[0].Text);
+            Assert.Equal("Movie" , headers[0].Text);
             Assert.Equal("Rating", headers[1].Text);
 
             //Verify a row contains expected movie/rating combo
