@@ -24,9 +24,9 @@ namespace Test
         }
 
         [Theory]
-        [InlineData("Star Wars", "5")]
-        [InlineData("Princess Bride", "4")]
-        public void TestCreateRating(string name, string rating)
+        [InlineData("Star Wars", 5)]
+        [InlineData("Princess Bride", 4)]
+        public void TestCreateRating(string name, int rating)
         {
             //add movies to data
             driver.Url = BASE_URL + "/movie/create";
@@ -45,7 +45,7 @@ namespace Test
 
             //make selections for input and submit
             movieSelectInput.SelectByText(name);
-            ratingSelectInput.SelectByText(rating);
+            ratingSelectInput.SelectByText(rating.ToString());
             submit.Click();
 
             //verify it redirects with correct query string values
@@ -62,7 +62,7 @@ namespace Test
             Assert.Equal("Rating", headers[1].Text);
 
             //Verify a row contains expected movie/rating combo
-            Assert.Contains(rows, row => RowMatches(row, name, rating));
+            Assert.Contains(rows, row => RowMatches(row, name, rating.ToString()));
         }
 
         private bool RowMatches(IWebElement row, string name, string rating)

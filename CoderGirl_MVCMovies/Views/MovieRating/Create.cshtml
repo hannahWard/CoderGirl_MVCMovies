@@ -8,19 +8,11 @@
 
 <form method="post">
     <select name="movieName">
-        @if (String.IsNullOrEmpty(ViewBag.MovieName) == true && ViewBag.Rating == 0)
+        @foreach (var movie in ViewBag.Movies)
         {
-            @foreach (var movie in ViewBag.Movies)
-            {
-                <option id="movie.Id">@movie.Name</option>
-            }
+            <option>@movie.Name</option>
         }
-        else
-        {
-           <option>@ViewBag.MovieName</option>
-        }
-
-
+        
     </select>
     <select name="rating">
         <option>1</option>

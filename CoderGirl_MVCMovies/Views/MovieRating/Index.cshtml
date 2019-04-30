@@ -10,27 +10,21 @@
 <table>
 
     <tr>
-        <th>Movie Name</th>
-        <th>Movie Rating</th>
+        <th>Movie</th>
+        <th>Rating</th>
     </tr>
 
 
     
     @foreach (var movie in ViewBag.Movies)
     {
-        @if (movie.Rating != 0)
-        {
+        
             <tr>
             <td id="movie.Id">@movie.Name</td>
             <td id="movie.Id">@movie.Rating</td>
 
             </tr>
-        }
-        else
-        {
-            continue;
-        }
-
+        
     }
 
 </table>

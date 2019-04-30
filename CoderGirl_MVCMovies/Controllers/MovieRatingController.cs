@@ -12,9 +12,9 @@ namespace CoderGirl_MVCMovies.Controllers
         private IMovieRatingRepository repository = RepositoryFactory.GetMovieRatingRepository();
 
         
-        List<Movie> movies = Controllers.MovieController.movies;
-        
-        
+        public static List<Movie> movies = Controllers.MovieController.movies;
+        public static Movie movie = new Movie();
+
 
 
 
@@ -39,15 +39,15 @@ namespace CoderGirl_MVCMovies.Controllers
         [HttpPost]
         public IActionResult Create(string movieName, int rating)
         {
-            ViewBag.Name = movieName;
-            ViewBag.Rating = rating;
+            
+            //ViewBag.Movies = movies;
 
             Movie movie = new Movie();
             movie.Name = movieName;
             movie.Rating = rating;
             movie.Id = Controllers.MovieController.nextIdToUse++;
             movies.Add(movie);
-
+            
             return RedirectToAction(actionName: nameof(Details), routeValues: new { movieName, rating });
         }
 
