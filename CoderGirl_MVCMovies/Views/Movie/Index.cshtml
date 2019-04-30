@@ -11,11 +11,14 @@
         <th>Movie Name</th>
     </tr>
     @foreach (var movie in ViewBag.Movies)
-        {
-        <tr>
-            <td id="movie.Id">@movie.MovieName</td>
-        </tr>
-        }
+    {
         
+      <tr>
+          <td id="movie.Id">@movie.Name</td>
+      </tr>
+        
+    }
+
+
 </table>
 

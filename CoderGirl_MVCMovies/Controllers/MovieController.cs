@@ -12,10 +12,10 @@ namespace CoderGirl_MVCMovies.Controllers
 {
     public class MovieController : Controller
     {
-        //public static Dictionary<int, string> movies = new Dictionary<int, string>();
+        
         public static int nextIdToUse = 1; //increment at the proper time
-        public static List<Movies> movies = new List<Movies>();
-        public static Movies eachMovie = new Movies();
+        public static List<Movie> movies = new List<Movie>();
+        public static Movie eachMovie = new Movie();
         
 
 
@@ -34,15 +34,14 @@ namespace CoderGirl_MVCMovies.Controllers
         [HttpPost]
         public IActionResult Create(string movie)
         {
-            Movies eachMovie = new Movies();
-            eachMovie.MovieName = movie;
+            Movie eachMovie = new Movie();
+            eachMovie.Name = movie;
             eachMovie.Id = nextIdToUse;
             
             movies.Add(eachMovie);
             nextIdToUse++;
 
-            //movies.Add(nextIdToUse, movie);
-            //nextIdToUse++;
+            
             return RedirectToAction(actionName: nameof(Index));
         }
     }

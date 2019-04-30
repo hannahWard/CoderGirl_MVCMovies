@@ -11,21 +11,9 @@ namespace CoderGirl_MVCMovies.Views.MovieRating
         
         public decimal GetAverageRatingByMovieName(string movieName)
         {
-            decimal rating = 0;
-            foreach (var movie in Controllers.MovieController.movies)
-            {
-                if (movie.MovieName == movieName)
-                {
-                    double getAverage = movie.MovieRatings.Average();
-                    rating = (decimal)Math.Round(getAverage);
-                }
-                else
-                {
-                    continue;
-                }
-            }
 
-            return rating;
+            return (decimal)Controllers.MovieController.movies.Where(p => p.Name == movieName).Select(p => p.Rating).Average();
+            
         }
 
         public List<int> GetIds()
@@ -45,7 +33,7 @@ namespace CoderGirl_MVCMovies.Views.MovieRating
             {
                 if (id == movie.Id)
                 {
-                    name = movie.MovieName;
+                    name = movie.Name;
                 }
                 else
                 {
@@ -57,31 +45,17 @@ namespace CoderGirl_MVCMovies.Views.MovieRating
 
         public int GetRatingById(int id)
         {
-            int rating = 0;
-            foreach (var movie in Controllers.MovieController.movies)
-            {
-                if (id == movie.Id)
-                {
-                    double getAverage = movie.MovieRatings.Average();
-                    rating = (int)Math.Round(getAverage);
-                }
-                else
-                {
-                    continue;
-                }
-            }
-            return rating;
+            return int.Parse(Controllers.MovieController.movies.Where(p => p.Id == id).Select(p => p.Rating).ToString());
         }
 
         public int SaveRating(string movieName, int rating)
         {
             if (String.IsNullOrEmpty(movieName) == false && rating != 0)
             {
-                Movies movie = new Movies();
-                movie.MovieName = movieName;
-                movie.Id = Controllers.MovieController.nextIdToUse;
-                movie.MovieRatings = new List<int>();
-                movie.MovieRatings.Add(rating);
+                Movie movie = new Movie();
+                movie.Name = movieName;
+                movie.Id = Controllers.MovieController.nextIdToUse++;
+                movie.Rating = rating;
                 Controllers.MovieController.movies.Add(movie);
                 return movie.Id;
             }

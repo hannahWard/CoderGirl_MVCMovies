@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace CoderGirl_MVCMovies
 {
-    public class Movies
+    public class Movie
     {
-        public string MovieName { get; set; }
-        public List<int> MovieRatings { get; set; }
+        public string Name { get; set; }
+        public int Rating { get; set; }
         public int Id { get; set; }
 
     }

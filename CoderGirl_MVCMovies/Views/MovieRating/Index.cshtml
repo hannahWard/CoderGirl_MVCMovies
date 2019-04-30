@@ -18,11 +18,19 @@
 
     @foreach (var movie in ViewBag.Movies)
     {
-        <tr>
-            <td id="movie.Id">@movie.MovieName</td>
-            <td id="movie.Id">@movie.MovieRating</td>
+        @if (movie.Rating != 0)
+        {
+            <tr>
+            <td id="movie.Id">@movie.Name</td>
+            <td id="movie.Id">@movie.Rating</td>
 
-        </tr>
+            </tr>
+        }
+        else
+        {
+            continue;
+        }
+
     }
 
 </table>

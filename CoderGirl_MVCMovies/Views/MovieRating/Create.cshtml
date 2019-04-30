@@ -6,11 +6,11 @@
 <h1>Rate Movie</h1>
 <a asp-controller="Rate Movie" asp-action="Create"></a>
 
-<form method='post'>
+<form method="post">
     <select name="movieName">
         @foreach (var movie in ViewBag.Movies)
         {
-            <option id="movie.Id">@movie.MovieName</option>
+            <option id="movie.Id">@movie.Name</option>
         }
     </select>
     <select name="rating">
