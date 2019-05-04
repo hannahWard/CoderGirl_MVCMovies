@@ -5,46 +5,17 @@ using System.Threading.Tasks;
 
 namespace CoderGirl_MVCMovies.Data
 {
-    // TODO: Implement this interface
+    // TODO: I have provided this for you. Use it or change it as you wish. This is merely a suggested pattern to follow
     public interface IMovieRatingRepository
-    {        
-        /// <summary>
-        /// Given a movieName and rating, saves the rating and returns a unique id > 0.
-        /// If the movie name and/or rating are null or empty, nothing should be saved and it should return 0
-        /// </summary>
-        /// <param name="movieName"></param>
-        /// <param name="rating"></param>
-        /// <returns></returns>
-        int SaveRating(string movieName, int rating);
+    {
+        //int Save(MovieRating movieRating);
 
-        /// <summary>
-        /// Given an id, will return the associated rating 
-        /// If the id does not exist, returns null
-        /// </summary>
-        /// <param name=""></param>
-        /// <returns></returns>
-        int GetRatingById(int id);
+        //List<MovieRating> GetMovieRatings();
 
-        /// <summary>
-        /// Given an id, will return the associated movie name.
-        /// If the id does not exist, return null
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        string GetMovieNameById(int id);
+        //MovieRating GetById(int id);
 
-        /// <summary>
-        /// Given a movie name, returns the average rating of of the movie.
-        /// If there are no ratings for the movie, returns an empty list.
-        /// </summary>
-        /// <param name="movieName"></param>
-        /// <returns></returns>
-        decimal GetAverageRatingByMovieName(string movieName);
+        //void Update(MovieRating movie);
 
-        /// <summary>
-        /// Returns a list of all the ids of saved movie ratings
-        /// </summary>
-        /// <returns></returns>
-        List<int> GetIds();
+        //void Delete(int id);
     }
 }
