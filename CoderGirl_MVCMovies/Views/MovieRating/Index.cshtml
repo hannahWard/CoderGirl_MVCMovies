@@ -11,9 +11,11 @@
     </tr>
     @foreach (var movie in Model)
     {
-        <tr>
-            <td id="@movie.Id">@movie.MovieName</td>
-            <td id="@movie.Id">@movie.Rating</td>
-        </tr>
+<tr>
+    <td id="@movie.Id">@movie.MovieName</td>
+    <td id="@movie.Id">@movie.Rating</td>
+    <td><a asp-controller="MovieRating" asp-action="Edit" asp-route-id="@movie.Id">Edit</a></td>
+    <td><a asp-controller="MovieRating" asp-action="Delete" asp-route-id="@movie.Id">Delete</a></td>
+</tr>
     }
 </table>

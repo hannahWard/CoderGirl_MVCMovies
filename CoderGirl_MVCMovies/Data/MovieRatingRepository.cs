@@ -38,5 +38,10 @@ namespace CoderGirl_MVCMovies.Data
             this.Delete(movie.Id);
             movies.Add(movie);
         }
+
+        public string GetMovieNameById(int id)
+        {
+            return movies.SingleOrDefault(m => m.Id == id).MovieName;
+        }
     }
 }
