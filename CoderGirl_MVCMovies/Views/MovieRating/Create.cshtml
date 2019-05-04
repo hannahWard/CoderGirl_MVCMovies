@@ -1,4 +1,5 @@
 ﻿@model List<CoderGirl_MVCMovies.Models.Movie>
+
 @{
     ViewData["Title"] = "Rate Movie";
 }
@@ -6,17 +7,17 @@
 <h1>Rate a Movie</h1>
 <form method='post'>
     <select name="movieName">
-        @foreach (var movie in Model)
+        @foreach (var movie in ViewBag.Movies)
         {
-            <option>@movie.Name</option>
+            <option asp-for="MovieName">@movie.Name</option>
         }
     </select>
     <select name="rating">
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-        <option>5</option>
+        <option asp-for="Rating">1</option>
+        <option asp-for="Rating">2</option>
+        <option asp-for="Rating">3</option>
+        <option asp-for="Rating">4</option>
+        <option asp-for="Rating">5</option>
     </select>
     <button type='submit'>Rate it</button>
 </form>

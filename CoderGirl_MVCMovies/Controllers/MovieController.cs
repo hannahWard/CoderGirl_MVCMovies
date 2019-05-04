@@ -16,7 +16,7 @@ namespace CoderGirl_MVCMovies.Controllers
 {
     public class MovieController : Controller
     {
-        public static Dictionary<int, string> movies = new Dictionary<int, string>();
+        public static IMovieRespository movieRepository = RepositoryFactory.GetMovieRepository();
         private static int nextIdToUse = 1; 
 
         public IActionResult Index()
@@ -46,19 +46,6 @@ namespace CoderGirl_MVCMovies.Controllers
             return View("Create", movie);
         }
 
-        [HttpPost]
-        public IActionResult Create(Movie movie)
-        {
-            movieRepository.Save(movie);
-            return RedirectToAction(actionName: nameof(Index));
-        }
-
-        [HttpGet]
-        public IActionResult Edit(int id)
-        {
-            Movie movie = movieRepository.GetById(id);
-            return View(movie);
-        }
 
         [HttpPost]
         public IActionResult Edit(int id, Movie movie)

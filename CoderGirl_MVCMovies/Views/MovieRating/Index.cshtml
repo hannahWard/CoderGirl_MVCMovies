@@ -1,4 +1,4 @@
-﻿
+﻿@model List<CoderGirl_MVCMovies.Models.MovieRating>
 @{
     ViewData["Title"] = "Movie Ratings";
 }
@@ -6,12 +6,14 @@
 <h1>Movie Ratings</h1>
 <table>
     <tr>
-        <th>Movie</th><th>Rating</th>
+        <th>Movie</th>
+        <th>Rating</th>
     </tr>
-    @foreach(var movieRating in ViewBag.MovieRatings)
+    @foreach (var movie in Model)
     {
         <tr>
-            <td>@movieRating.Key</td><td>@movieRating.Value</td>
+            <td id="@movie.Id">@movie.MovieName</td>
+            <td id="@movie.Id">@movie.Rating</td>
         </tr>
     }
 </table>
