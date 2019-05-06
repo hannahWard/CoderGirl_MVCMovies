@@ -26,11 +26,11 @@ namespace Test
         [Theory]
         [InlineData("Star Wars", "5")]
         [InlineData("Princess Bride", "4")]
-        public void TestCreateMovieRating(string name, string rating)
+        public void TestCreateMovieRating(string movieName, string rating)
         {
             //add movies to data
             driver.Url = BASE_URL + "/movie/create";
-            driver.FindElementByName("movie").SendKeys(name);
+            driver.FindElementByName("movie").SendKeys(movieName);
             var movieForm = driver.FindElementByTagName("form");
             var movieSubmit = movieForm.FindElement(By.TagName("button"));
             movieSubmit.Click();
@@ -45,7 +45,7 @@ namespace Test
             var ratingSelectInput = new SelectElement(driver.FindElementByName("Rating"));
 
             //make selections for input and submit
-            movieSelectInput.SelectByText(name);
+            movieSelectInput.SelectByText(movieName);
             ratingSelectInput.SelectByText(rating);
             submit.Click();
 
@@ -63,7 +63,7 @@ namespace Test
             Assert.Equal("Rating", headers[1].Text);
 
             //Verify a row contains expected movie/rating combo
-            Assert.Contains(rows, row => RowMatches(row, name, rating));
+            Assert.Contains(rows, row => RowMatches(row, movieName, rating));
         }
 
         private bool RowMatches(IWebElement row, string name, string rating)
