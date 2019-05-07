@@ -1,83 +1,112 @@
-﻿using CoderGirl_MVCMovies;
+﻿using HtmlAgilityPack;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using System.Reflection;
-using System.IO;
-using OpenQA.Selenium.Support.UI;
+using CoderGirl_MVCMovies.Controllers;
+using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Test
 {
-    public class TestMovieRatingViews : IDisposable
+    public class TestMovieRatingController
     {
-        private ChromeDriver driver;
-        private const string BASE_URL = "http://localhost:59471";
+        private MovieRatingController controller;
 
-
-        public TestMovieRatingViews()
+        public TestMovieRatingController()
         {
-            driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+            controller = new MovieRatingController();
+        }
+
+        [Fact]
+        public void Test_GET_Create_ContainsForm()
+        {
+            ContentResult result = (ContentResult)controller.Create();
+
+            Assert.Equal("text/html", result.ContentType);
+            HtmlNode html = HtmlNode.CreateNode(result.Content);
+            Assert.Equal("form", html.Name);
+        }
+
+        [Fact]
+        public void Test_GET_Create_ContainsForm_WithMethodOfPost()
+        {
+            ContentResult result = (ContentResult)controller.Create();
+
+            HtmlNode html = HtmlNode.CreateNode(result.Content);
+            HtmlAttribute method = html.Attributes.FirstOrDefault(attr => attr.Name.ToLower() == "method");
+            Assert.NotNull(method);
+            Assert.Equal("post", method.Value.ToLower());
+        }
+
+        [Fact]
+        public void Test_GET_Create_ContainsForm_WithNoAction_OrActionForCreateMovieRating()
+        {
+            ContentResult result = (ContentResult)controller.Create();
+
+            HtmlNode html = HtmlNode.CreateNode(result.Content);
+            HtmlAttribute formAction = html.Attributes.FirstOrDefault(attr => attr.Name.ToLower() == "action");
+            Assert.True(formAction == null || formAction.Value.ToLower() == "/movierating/create");
+        }
+
+        [Fact]
+        public void Test_GET_Create_ContainsForm_WithInputElement()
+        {
+            ContentResult result = (ContentResult)controller.Create();
+
+            HtmlNode input = HtmlNode.CreateNode(result.Content).ChildNodes.FirstOrDefault(node => node.Name == "input");
+            Assert.NotNull(input);
+            Assert.Equal("movieName", input.Attributes.SingleOrDefault(attr => attr.Name == "name").Value);
+        }
+
+        [Fact]
+        public void Test_GET_Create_ContainsForm_WithSelectElement_ContainingRatings()
+        {
+            string[] expectedRatings = { "1", "2", "3", "4", "5" };
+
+            ContentResult result = (ContentResult)controller.Create();
+
+            HtmlNode select = HtmlNode.CreateNode(result.Content).ChildNodes.FirstOrDefault(node => node.Name == "select");
+            Assert.NotNull(select);
+            Assert.Equal("rating", select.Attributes.SingleOrDefault(attr => attr.Name == "name").Value);
+            var actualRatings = select.ChildNodes.Where(node => node.Name == "option").Select(opt => opt.InnerText).ToArray();
+            Assert.Equal(expectedRatings, actualRatings);
+        }
+
+        [Fact]
+        public void Test_GET_Create_ContainsForm_WithSubmitButton()
+        {
+            IActionResult result = controller.Create();
+
+            ContentResult content = Assert.IsType<ContentResult>(result);
+            HtmlNode submitBtn = HtmlNode.CreateNode(content.Content).ChildNodes.FirstOrDefault(node => node.Name == "button");
+            Assert.NotNull(submitBtn);
+            Assert.Equal("submit", submitBtn.Attributes.SingleOrDefault(attr => attr.Name == "type").Value.ToLower());
         }
 
         [Theory]
         [InlineData("Star Wars", "5")]
-        [InlineData("Princess Bride", "4")]
-        public void TestCreateMovieRating(string movieName, string rating)
+        [InlineData("The Princess Bride", "4")]
+        public void Test_POST_Create_RedirectsTo_GETDetails_WithInputValues(string movieName, string rating)
         {
-            //add movies to data
-            driver.Url = BASE_URL + "/movie/create";
-            driver.FindElementByName("movie").SendKeys(movieName);
-            var movieForm = driver.FindElementByTagName("form");
-            var movieSubmit = movieForm.FindElement(By.TagName("button"));
-            movieSubmit.Click();
+            IActionResult result = controller.Create(movieName, rating);
 
-            //navigate to add movie rating page and get elements
-            driver.Url = BASE_URL + "/movierating/create";
-            var form = driver.FindElementByTagName("form");
-            var submit = form.FindElement(By.TagName("button"));
-            Assert.Equal("submit", submit.GetAttribute("type"));
-            Assert.Equal("Add Movie", submit.Text);
-            var movieSelectInput = new SelectElement(driver.FindElementByName("Movie"));
-            var ratingSelectInput = new SelectElement(driver.FindElementByName("Rating"));
-
-            //make selections for input and submit
-            movieSelectInput.SelectByText(movieName);
-            ratingSelectInput.SelectByText(rating);
-            submit.Click();
-
-            //verify it redirects to Index
-            Assert.Equal(Uri.EscapeUriString(BASE_URL + $"/movierating"), driver.Url, true);
-
-            //navigate to movie rating list page and get table rows
-            driver.Url = BASE_URL + "/movierating";
-            var rows = driver.FindElementsByTagName("tr");
-            var headers = rows[0].FindElements(By.TagName("th"));
-            var source = driver.PageSource;
-
-            //Verify the first row has proper headers
-            Assert.Equal("Movie",  headers[0].Text);
-            Assert.Equal("Rating", headers[1].Text);
-
-            //Verify a row contains expected movie/rating combo
-            Assert.Contains(rows, row => RowMatches(row, movieName, rating));
+            var redirect = Assert.IsType<RedirectToActionResult>(result);
+            Assert.Equal("Details", redirect.ActionName);
+            Assert.Equal(new KeyValuePair<string, object>("movieName", movieName), redirect.RouteValues.First());
+            Assert.Equal(new KeyValuePair<string, object>("rating", rating), redirect.RouteValues.Skip(1).Take(1).First());
         }
 
-        private bool RowMatches(IWebElement row, string name, string rating)
+        [Theory]
+        [InlineData("Star Wars", "5")]
+        [InlineData("The Princess Bride", "4")]
+        public void Test_GET_Details(string movieName, string rating)
         {
-            var tdElements = row.FindElements(By.TagName("td"));
-            if (tdElements.Count < 2) return false;
+            string expectedString = $"{movieName} has a rating of {rating}";
 
-            return tdElements[0].Text == name && tdElements[1].Text == rating;
-        }
+            IActionResult result = controller.Details(movieName, rating);
 
-        public void Dispose()
-        {
-            driver.Close();
-            driver.Dispose();
+            ContentResult content = Assert.IsType<ContentResult>(result);
+            Assert.Equal(expectedString, content.Content);
         }
     }
 }
