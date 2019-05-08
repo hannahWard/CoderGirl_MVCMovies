@@ -8,21 +8,39 @@ using Microsoft.AspNetCore.Mvc;
 using CoderGirl_MVCMovies.Data;
 using CoderGirl_MVCMovies.Models;
 
+//using OpenQA.Selenium;
+//using OpenQA.Selenium.Chrome;
+//using OpenQA.Selenium.Support.UI;
+
 
 
 
 
 namespace CoderGirl_MVCMovies.Controllers
 {
+
+    
+
     public class MovieController : Controller
     {
+
+        //ChromeDriver driver;
+
         public static IMovieRespository movieRepository = RepositoryFactory.GetMovieRepository();
         private static int nextIdToUse = 1; 
 
         public IActionResult Index()
         {
+
+             
+        //private const string BASE_URL = "http://localhost:59471";
+        //ChromeDriver driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+
+
             List<Movie> movies = movieRepository.GetMovies();
             return View(movies);
+
+
         }
 
         [HttpGet]

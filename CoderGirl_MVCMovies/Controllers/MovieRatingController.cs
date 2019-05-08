@@ -36,7 +36,8 @@ namespace CoderGirl_MVCMovies.Controllers
             movie.Rating = rating;
             repository.Save(movie);
 
-            return RedirectToAction(actionName: nameof(Details), routeValues: new { movieName, rating });
+            //return RedirectToAction(actionName: nameof(Details), routeValues: new { movieName, rating });
+            return RedirectToAction(actionName: nameof(Index));
         }
 
         [HttpGet]

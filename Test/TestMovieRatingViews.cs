@@ -10,6 +10,8 @@ using System.IO;
 using OpenQA.Selenium.Support.UI;
 using System.Linq;
 
+using System.Threading;
+
 namespace Test
 {
     [TestCaseOrderer("Test.PriorityOrderer", "Test")]
@@ -31,7 +33,8 @@ namespace Test
         {
             //add movies to data
             driver.Url = BASE_URL + "/movie/create";
-            driver.FindElementByName("Name").SendKeys(name);
+            //Thread.Sleep(4000);
+            driver.FindElementById("Name").SendKeys(name);
             driver.FindElementByName("Director").SendKeys(director);
             driver.FindElementByName("Year").SendKeys(year);
             var movieForm = driver.FindElementByTagName("form");
@@ -105,8 +108,8 @@ namespace Test
         }
 
         [Theory, TestPriority(5)]
-        [InlineData("Star Wars", "3")]
-        [InlineData("Princess Bride", "5")]
+        [InlineData("Star Wars", "5")]
+        [InlineData("Princess Bride", "4")]
         public void TestDeleteMovieRating(string name, string rating)
         {
             //navigate to movie rating list page
@@ -188,6 +191,7 @@ namespace Test
         {
             var tdElements = row.FindElements(By.TagName("td"));
             if (tdElements.Count < 2) return false;
+            row.GetAttribute("td");
 
             return tdElements[0].Text == name && tdElements[1].Text == rating;
         }
