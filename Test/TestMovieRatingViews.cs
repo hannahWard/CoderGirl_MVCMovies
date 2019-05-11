@@ -108,8 +108,8 @@ namespace Test
         }
 
         [Theory, TestPriority(5)]
-        [InlineData("Star Wars", "5")]
-        [InlineData("Princess Bride", "4")]
+        [InlineData("Star Wars", "3")]
+        [InlineData("Princess Bride", "5")]
         public void TestDeleteMovieRating(string name, string rating)
         {
             //navigate to movie rating list page
@@ -156,7 +156,7 @@ namespace Test
             Assert.Contains(Uri.EscapeUriString(BASE_URL + $"/movierating/edit/"), driver.Url.ToLower());
 
             //Change values for name and rating then submit
-            driver.FindElementById("MovieName").SendKeys("badName");
+            //driver.FindElementById("MovieName").SendKeys("badName");
             new SelectElement(driver.FindElementById("Rating")).SelectByText(newRating);
             var submitButton = driver.FindElementByTagName("form").FindElement(By.TagName("button"));
             Assert.Equal("Update Rating", submitButton.Text);
