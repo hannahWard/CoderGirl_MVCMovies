@@ -41,11 +41,6 @@ namespace CoderGirl_MVCMovies.Data
 
         public void Update(Movie movie)
         {
-            //there are many ways to accomplish this, this is just one possible way
-            //the upside is that it is relatively simple, 
-            //the (possible) downside is that it doesn't preserve the order in the list
-            //as the AC doesn't specify, I am going with the simpler solution
-            //once we start using the database this pattern will be simplified
             this.Delete(movie.Id);
             movies.Add(movie);
         }
