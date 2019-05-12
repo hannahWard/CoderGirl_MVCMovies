@@ -35,8 +35,6 @@ namespace CoderGirl_MVCMovies.Controllers
             movie.MovieName = movieName;
             movie.Rating = rating;
             repository.Save(movie);
-
-            //return RedirectToAction(actionName: nameof(Details), routeValues: new { movieName, rating });
             return RedirectToAction(actionName: nameof(Index));
         }
 
@@ -52,9 +50,8 @@ namespace CoderGirl_MVCMovies.Controllers
         public IActionResult Edit(int id)
         {
             MovieRating movie = repository.GetById(id);
-            ViewBag.MovieName = movie.MovieName;
-            ViewBag.Id = id;
-            return View();
+            movie.Id = id;
+            return View("Edit", movie);
         }
 
 
@@ -62,7 +59,6 @@ namespace CoderGirl_MVCMovies.Controllers
         public IActionResult Edit(int id, MovieRating movie)
         {
             movie.Id = id;
-            movie.MovieName = repository.GetMovieNameById(id);
             repository.Update(movie);
             return RedirectToAction(actionName: nameof(Index));
         }

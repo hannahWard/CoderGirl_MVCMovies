@@ -41,7 +41,7 @@ namespace CoderGirl_MVCMovies.Data
             //as the AC doesn't specify, I am going with the simpler solution
             //once we start using the database this pattern will be simplified
             this.Delete(movie.Id);
-            
+
             movies.Add(movie);
         }
     }

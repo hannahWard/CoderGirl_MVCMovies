@@ -61,7 +61,9 @@ namespace CoderGirl_MVCMovies.Controllers
         public IActionResult Edit(int id)
         {
             Movie movie = movieRepository.GetById(id);
-            return View("Create", movie);
+            movie.Id = id;
+            movieRepository.Update(movie);
+            return View("Edit", movie);
         }
 
 
