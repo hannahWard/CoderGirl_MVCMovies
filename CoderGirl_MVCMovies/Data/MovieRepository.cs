@@ -45,7 +45,7 @@ namespace CoderGirl_MVCMovies.Data
             movies.Add(movie);
         }
 
-        private Movie SetMovieRatings(Movie movie)
+        public Movie SetMovieRatings(Movie movie)
         {
             List<int> ratings = ratingRepository.GetMovieRatings()
                                                 .Where(rating => rating.MovieId == movie.Id)
@@ -54,5 +54,42 @@ namespace CoderGirl_MVCMovies.Data
             movie.Ratings = ratings;
             return movie;
         }
+
+        public double GetAverageRatingByMovieName(string movieName)
+        {
+            double average = 0;
+
+            foreach (var movie in movies)
+            {
+                if (movie.Name == movieName)
+                {
+                    if(movie.Ratings.Count == 0)
+                    {
+                        average = 0;
+                    }
+                    else
+                    {
+                        average = movie.Ratings.Average();
+                    }
+                }
+                else
+                {
+                    continue;
+                }
+                
+            }
+            return average;
+        }
+
+        public int CountRatings(Movie movie)
+        {
+            List<int> ratings = ratingRepository.GetMovieRatings()
+                                                .Where(rating => rating.MovieId == movie.Id)
+                                                .Select(rating => rating.Rating)
+                                                .ToList();
+            return ratings.Count;
+        }
+
+        
     }
 }

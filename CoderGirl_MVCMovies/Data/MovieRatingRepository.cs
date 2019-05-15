@@ -10,6 +10,7 @@ namespace CoderGirl_MVCMovies.Data
     {
         private static List<MovieRating> movieRatings = new List<MovieRating>();
         private static int nextId = 1;
+        private static IMovieRespository movieRespository = RepositoryFactory.GetMovieRepository();
 
         public void Delete(int id)
         {
@@ -28,7 +29,8 @@ namespace CoderGirl_MVCMovies.Data
 
         public int Save(MovieRating movieRating)
         {
-            movieRating.Id = nextId++;
+            movieRating.Id = nextId;
+            //movieRating.MovieId = nextId++;
             movieRatings.Add(movieRating);
             return movieRating.Id;
         }

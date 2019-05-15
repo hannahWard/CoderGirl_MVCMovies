@@ -11,16 +11,31 @@ namespace CoderGirl_MVCMovies.Controllers
     public class MovieController : Controller
     {
         public static IMovieRespository movieRepository = RepositoryFactory.GetMovieRepository();
+        public static IDirectorRepository directorRepository = RepositoryFactory.GetDirectorRepository();
 
         public IActionResult Index()
         {
             List<Movie> movies = movieRepository.GetMovies();
+            List<MovieAverageRating> averageRatings = new List<MovieAverageRating>();
+            foreach(var movie in movies)
+            {
+                MovieAverageRating eachAverageRating = new MovieAverageRating();
+                eachAverageRating.Id = movie.Id;
+                eachAverageRating.AverageRating = movieRepository.GetAverageRatingByMovieName(movie.Name);
+                eachAverageRating.NumberOfRatings = movieRepository.CountRatings(movie);
+                averageRatings.Add(eachAverageRating);
+            }
+            ViewBag.AverageRatings = averageRatings;
+            
+            
+
             return View(movies);
         }
 
         [HttpGet]
         public IActionResult Create()
         {
+            ViewBag.Directors = directorRepository.GetDirectors();
             return View();
         }
 

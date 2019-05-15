@@ -11,15 +11,39 @@
         <th>Movie Name</th>
         <th>Director</th>
         <th>Year</th>
+        <th>Average Rating</th>
+        <th>Number of Ratings</th>
     </tr>
     @foreach (var movie in Model)
     {
-    <tr>
-        <td>@movie.Name</td>
-        <td>@movie.DirectorName</td>
-        <td>@movie.Year</td>
-        <td><a asp-controller="Movie" asp-action="Edit" asp-route-id="@movie.Id">Edit</a></td>
-        <td><a asp-controller="Movie" asp-action="Delete" asp-route-id="@movie.Id">Delete</a></td>
-    </tr>
+<tr>
+    <td>@movie.Name</td>
+    <td>@movie.DirectorName</td>
+    <td>@movie.Year</td>
+    @foreach (var rating in ViewBag.AverageRatings)
+    {
+        @if (movie.Id == rating.Id)
+        {
+            @if (rating.AverageRating == 0)
+            {
+                <td>none</td>
+                <td>0</td>
+            }
+            else
+            {
+                <td>@rating.AverageRating</td>
+                <td>@rating.NumberOfRatings</td>
+            }
+
+        }
+        else
+        {
+            continue;
+        }
     }
-</table>
+    <td><a asp-controller="Movie" asp-action="Edit" asp-route-id="@movie.Id">Edit</a></td>
+    <td><a asp-controller="Movie" asp-action="Delete" asp-route-id="@movie.Id">Delete</a></td>
+    <td><a asp-controller="MovieRating" asp-action="Create" asp-route-id="@movie.Id">Rate</a></td>
+</tr>
+    }
+</table>   
