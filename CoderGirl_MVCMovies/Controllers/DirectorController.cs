@@ -28,6 +28,33 @@ namespace CoderGirl_MVCMovies.Controllers
         [HttpPost]
         public IActionResult Create(Director director)
         {
+            if (String.IsNullOrWhiteSpace(director.FirstName))
+            {
+                ModelState.AddModelError("FirstName", "Name must be included");
+            }
+
+            if (String.IsNullOrWhiteSpace(director.LastName))
+            {
+                ModelState.AddModelError("LastName", "Name must be included");
+            }
+
+            if (director.BirthDate == null)
+            {
+                ModelState.AddModelError("BirthDate", "Birth Date must be included");
+            }
+
+            if (String.IsNullOrWhiteSpace(director.Nationality))
+            {
+                director.Nationality = "unknown";
+            }
+            
+
+            if (ModelState.ErrorCount > 0)
+            {
+                return View(director);
+            }
+
+
             directorRepository.Save(director);
             return RedirectToAction(actionName: nameof(Index));
         }
