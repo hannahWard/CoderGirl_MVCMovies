@@ -171,7 +171,7 @@ namespace Test
         {
             //navigate to /director/create and submit invalid form
             driver.Url = BASE_URL + "/director/create";
-            driver.FindElementByName("Name").SendKeys("");
+            driver.FindElementByName("FirstName").SendKeys("");
             var nationalityInput = driver.FindElementByName("Nationality");
             Assert.Equal("unknown", nationalityInput.GetAttribute("value"));
             var movieForm = driver.FindElementByTagName("form");
@@ -179,10 +179,10 @@ namespace Test
             movieSubmit.Click();
 
             //verify did not leave page and error messages are set
-            Assert.Equal(Uri.EscapeUriString(BASE_URL + $"/Direct/Create"), driver.Url, true);
-            var nameErrorMsgSpan = driver.FindElementsByTagName("span").Single(el => el.GetAttribute("data-valmsg-for") == "Name");
+            Assert.Equal(Uri.EscapeUriString(BASE_URL + $"/Director/Create"), driver.Url, true);
+            var nameErrorMsgSpan = driver.FindElementsByTagName("span").Single(el => el.GetAttribute("data-valmsg-for") == "FirstName");
             Assert.Equal("Name must be included", nameErrorMsgSpan.Text);
-            nationalityInput = driver.FindElementsByName("input").Single(el => el.GetAttribute("name") == "Nationality");
+            nationalityInput = driver.FindElementsByTagName("input").Single(el => el.GetAttribute("name") == "Nationality");
             Assert.Equal("unknown", nationalityInput.GetAttribute("value"));
         }
 
@@ -217,6 +217,7 @@ namespace Test
             var tdElements = row.FindElements(By.TagName("td"));
             if (tdElements.Count < 2) return false;
 
+           
             return tdElements[0].Text == name && MatchByDateTimeOrString(tdElements[1].Text, birth) && tdElements[2].Text == nation;
         }
 
