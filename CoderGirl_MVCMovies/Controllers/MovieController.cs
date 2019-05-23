@@ -10,19 +10,19 @@ namespace CoderGirl_MVCMovies.Controllers
 {
     public class MovieController : Controller
     {
-        static IMovieRespository movieRepository = RepositoryFactory.GetMovieRepository();
-        static IDirectorRepository directorRepository = RepositoryFactory.GetDirectorRepository();
+        static IRepository movieRepository = RepositoryFactory.GetMovieRepository();
+        static IRepository directorRepository = RepositoryFactory.GetDirectorRepository();
 
         public IActionResult Index()
         {
-            List<Movie> movies = movieRepository.GetMovies();
+            List<Movie> movies = movieRepository.GetModels().Cast<Movie>().ToList();
             return View(movies);
         }
 
         [HttpGet]
         public IActionResult Create()
         {
-            ViewBag.Directors = directorRepository.GetDirectors();
+            ViewBag.Directors = directorRepository.GetModels().Cast<Director>().ToList();
             return View();
         }
 
