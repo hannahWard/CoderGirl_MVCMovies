@@ -23,14 +23,15 @@ namespace CoderGirl_MVCMovies.Data
 
         public override List<IModel> GetModels()
         {
-            return models.Select(movie => SetMovieRatings(movie)) //<--casting issue check link in prepwork
-                .Select(movie => SetDirectorName(movie)).ToList();
+            return models.Cast<Movie>().Select(movie => SetMovieRatings(movie)) //<--casting issue check link in prepwork
+                .Select(movie => SetDirectorName(movie)).Cast<IModel>().ToList();
         }
 
         
         private Movie SetMovieRatings(Movie movie)
         {
-            List<int> ratings = ratingRepository.GetMovieRatings()
+            List<int> ratings = ratingRepository.GetModels()
+                                                .Cast<MovieRating>()
                                                 .Where(rating => rating.MovieId == movie.Id)
                                                 .Select(rating => rating.Rating)
                                                 .ToList();
@@ -40,7 +41,7 @@ namespace CoderGirl_MVCMovies.Data
 
         private Movie SetDirectorName(Movie movie)
         {
-            Director director = directorRepository.GetById(movie.DirectorId);
+            Director director = (Director)directorRepository.GetById(movie.DirectorId);
             movie.DirectorName = director.FullName;
             return movie;
         }
