@@ -8,14 +8,19 @@ namespace CoderGirl_MVCMovies.Data
 {
     public class MovieRepository : BaseRepository
     {
-        
-        static IRepository ratingRepository = RepositoryFactory.GetMovieRatingRepository();
-        static IRepository directorRepository = RepositoryFactory.GetDirectorRepository();
+        static List<Movie> movies = new List<Movie>();
+        static int nextId = 1;
+        static IMovieRatingRepository ratingRepository = RepositoryFactory.GetMovieRatingRepository();
+        static IDirectorRepository directorRepository = RepositoryFactory.GetDirectorRepository();
 
-        public override IModel GetById(int id)
+        public void Delete(int id)
         {
-            
-            Movie movie = (Movie)base.GetById(id);
+            movies.RemoveAll(m => m.Id == id);
+        }
+
+        public Movie GetById(int id)
+        {
+            Movie movie = movies.SingleOrDefault(m => m.Id == id);
             movie = SetMovieRatings(movie);
             movie = SetDirectorName(movie);
             return movie;
@@ -23,11 +28,23 @@ namespace CoderGirl_MVCMovies.Data
 
         public override List<IModel> GetModels()
         {
-            return models.Cast<Movie>().Select(movie => SetMovieRatings(movie)) //<--casting issue check link in prepwork
-                .Select(movie => SetDirectorName(movie)).Cast<IModel>().ToList();
+            return movies.Select(movie => SetMovieRatings(movie))
+                .Select(movie => SetDirectorName(movie)).ToList();
         }
 
-        
+        public int Save(Movie movie)
+        {
+            movie.Id = nextId++;
+            movies.Add(movie);
+            return movie.Id;
+        }
+
+        public void Update(Movie movie)
+        {
+            this.Delete(movie.Id);
+            movies.Add(movie);
+        }
+
         private Movie SetMovieRatings(Movie movie)
         {
             List<int> ratings = ratingRepository.GetModels()
