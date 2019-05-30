@@ -28,9 +28,9 @@ namespace CoderGirl_MVCMovies.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(MovieCreateViewModel model)
+        public IActionResult Create(Movie movie)
         {
-            if (String.IsNullOrWhiteSpace(model.Name))
+            if (String.IsNullOrWhiteSpace(movie.Name))
             {
                 ModelState.AddModelError("Name", "Name must be included");
             }
@@ -46,7 +46,6 @@ namespace CoderGirl_MVCMovies.Controllers
             }
 
             model.Persist();
-            //movieRepository.Save(model);
             return RedirectToAction(actionName: nameof(Index));
         }
 

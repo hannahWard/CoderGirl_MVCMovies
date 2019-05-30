@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CoderGirl_MVCMovies.Models.Director>
+﻿@model IEnumerable<CoderGirl_MVCMovies.ViewModels.Directors.DirectorListItemViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -7,20 +7,41 @@
 <h1>Index</h1>
 
 <p>
-    <a id="add-new-director" asp-action="Create">Add a Director</a>
+    <a asp-action="Create">Create New</a>
 </p>
-<table>
-    <tr>
-        <th>Name</th>
-        <th>Birth Date</th>
-        <th>Nationality</th>
-    </tr>
-    @foreach(var item in Model)
-    {
+<table class="table">
+    <thead>
         <tr>
-            <td>@item.LastName, @item.FirstName</td>
-            <td>@item.BirthDate.ToString("M/d/yyyy")</td>
-            <td>@item.Nationality</td>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BirthDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nationality)
+            </th>
+            <th></th>
         </tr>
-    }
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BirthDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nationality)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new {  id=item.Id  }) |
+                @Html.ActionLink("Details", "Details", new {  id=item.Id  }) |
+                @Html.ActionLink("Delete", "Delete", new {  id=item.Id  })
+            </td>
+        </tr>
+}
+    </tbody>
 </table>
