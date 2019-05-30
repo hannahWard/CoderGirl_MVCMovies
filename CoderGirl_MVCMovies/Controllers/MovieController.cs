@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CoderGirl_MVCMovies.Data;
 using CoderGirl_MVCMovies.Models;
+using CoderGirl_MVCMovies.ViewModels.Movie;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CoderGirl_MVCMovies.Controllers
@@ -22,29 +23,30 @@ namespace CoderGirl_MVCMovies.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            ViewBag.Directors = directorRepository.GetModels().Cast<Director>().ToList();
-            return View();
+            MovieCreateViewModel model = MovieCreateViewModel.GetMovieCreateViewModel();
+            return View(model);
         }
 
         [HttpPost]
-        public IActionResult Create(Movie movie)
+        public IActionResult Create(MovieCreateViewModel model)
         {
-            if (String.IsNullOrWhiteSpace(movie.Name))
+            if (String.IsNullOrWhiteSpace(model.Name))
             {
                 ModelState.AddModelError("Name", "Name must be included");
             }
-            if(movie.Year < 1888 || movie.Year > DateTime.Now.Year)
+            if(model.Year < 1888 || model.Year > DateTime.Now.Year)
             {
                 ModelState.AddModelError("Year", "Year is not valid");
             }
 
             if(ModelState.ErrorCount > 0)
             {
-                ViewBag.Directors = directorRepository.GetModels().Cast<Director>().ToList();
-                return View(movie);
+                model.Directors = directorRepository.GetModels().Cast<Director>().ToList();
+                return View(model);
             }
 
-            movieRepository.Save(movie);
+            model.Persist();
+            //movieRepository.Save(model);
             return RedirectToAction(actionName: nameof(Index));
         }
 
