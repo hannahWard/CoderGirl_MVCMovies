@@ -15,7 +15,6 @@
 
   <ItemGroup>
     <Folder Include="ViewModels\MovieRating\" />
-    <Folder Include="ViewModels\Director\" />
   </ItemGroup>
 
 </Project>
