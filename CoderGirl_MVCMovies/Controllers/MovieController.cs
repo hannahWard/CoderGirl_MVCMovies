@@ -23,7 +23,7 @@ namespace CoderGirl_MVCMovies.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            MovieCreateViewModel model = MovieCreateViewModel.GetMovieCreateViewModel();
+            MovieCreateViewModel model = new MovieCreateViewModel();
             return View(model);
         }
 
@@ -41,12 +41,10 @@ namespace CoderGirl_MVCMovies.Controllers
 
             if(ModelState.ErrorCount > 0)
             {
-                model.Directors = directorRepository.GetModels().Cast<Director>().ToList();
                 return View(model);
             }
 
             model.Persist();
-            //movieRepository.Save(model);
             return RedirectToAction(actionName: nameof(Index));
         }
 

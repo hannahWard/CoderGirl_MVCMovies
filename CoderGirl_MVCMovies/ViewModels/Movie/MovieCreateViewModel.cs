@@ -9,24 +9,14 @@ namespace CoderGirl_MVCMovies.ViewModels.Movie
 {
     public class MovieCreateViewModel
     {
-        public static MovieCreateViewModel GetMovieCreateViewModel()
-        {
-            List<Director> directors = RepositoryFactory.GetDirectorRepository()
-                .GetModels()
-                .Cast<Director>()
-                .ToList();
-            return new MovieCreateViewModel(directors);
-        }
-
-
         public string Name { get; set; }
         public int DirectorId { get; set; }
         public List<Director> Directors { get; set; }
         public int Year { get; set; }
 
-        private MovieCreateViewModel(List<Director> directors)
+        public MovieCreateViewModel()
         {
-            this.Directors = directors;
+            this.Directors = GetDirectorList();
         }
 
         public void Persist()
@@ -38,6 +28,14 @@ namespace CoderGirl_MVCMovies.ViewModels.Movie
                 Year = this.Year
             };
             RepositoryFactory.GetMovieRepository().Save(movie);
+        }
+
+        private List<Director> GetDirectorList()
+        {
+            return RepositoryFactory.GetDirectorRepository()
+                .GetModels()
+                .Cast<Director>()
+                .ToList();
         }
     }
 }
