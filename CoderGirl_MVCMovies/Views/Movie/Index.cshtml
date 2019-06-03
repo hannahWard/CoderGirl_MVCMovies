@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<CoderGirl_MVCMovies.ViewModels.Movies.MovieListItemViewModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Movies";
 }
 
 <h1>Index</h1>
@@ -9,7 +9,7 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<table>
     <thead>
         <tr>
             <th>
@@ -51,9 +51,13 @@
                 <td>none</td>
             }
             <td>@item.Ratings.Count()</td>
-            <td><a asp-controller="Movie" asp-action="Edit" asp-route-id="@item.Id">Edit</a></td>
-            <td><a asp-controller="Movie" asp-action="Delete" asp-route-id="@item.Id">Delete</a></td>
-            <td><a asp-controller="MovieRating" asp-action="Create" asp-route-movieId="@item.Id">Rate</a></td>
+            
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
+                <a asp-controller="MovieRating" asp-action="Create" asp-route-movieId="@item.Id">Rate</a>
+            </td>
+
         </tr>
 }
     </tbody>
