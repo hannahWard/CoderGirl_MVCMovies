@@ -8,7 +8,13 @@ using System.Threading.Tasks;
 namespace CoderGirl_MVCMovies.ViewModels.Movies
 {
     public class MovieCreateViewModel
+
     {
+        public MovieCreateViewModel()
+        {
+
+        }
+
         public static MovieCreateViewModel GetMovieCreateViewModel()
         {
             List<Director> directors = RepositoryFactory.GetDirectorRepository()
