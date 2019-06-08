@@ -1,21 +1,41 @@
-﻿@model List<CoderGirl_MVCMovies.Models.MovieRating>
+﻿@model IEnumerable<CoderGirl_MVCMovies.ViewModels.MovieRating.MovieRatingListItemViewModel>
+
 @{
-    ViewData["Title"] = "Movie Ratings";
+    ViewData["Title"] = "Index";
 }
 
-<h1>Movie Ratings</h1>
-<a id="add-movierating" asp-action="Create">Rate a Movie</a>
-<table>
-    <tr>
-        <th>Movie</th><th>Rating</th>
-    </tr>
-    @foreach(var movieRating in Model)
-    {
-    <tr>
-        <td>@movieRating.MovieName</td>
-        <td>@movieRating.Rating</td>
-        <td><a asp-action="Edit" asp-route-id="@movieRating.Id">Edit</a></td>
-        <td><a asp-action="Delete" asp-route-id="@movieRating.Id">Delete</a></td>
-    </tr>
-    }
+<h1>Index</h1>
+
+<p>
+    <a id="add-movierating" asp-action="Create">Rate a Movie</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.MovieName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rating)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MovieName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rating)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+               
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
 </table>

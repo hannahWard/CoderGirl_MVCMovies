@@ -28,6 +28,19 @@ namespace CoderGirl_MVCMovies.Controllers
         [HttpPost]
         public IActionResult Create(DirectorCreateViewModel model)
         {
+            if (String.IsNullOrWhiteSpace(model.FirstName))
+            {
+                ModelState.AddModelError("FirstName", "First Name must be included");
+            }
+            if (String.IsNullOrWhiteSpace(model.LastName))
+            {
+                ModelState.AddModelError("LastName", "Last Name must be included");
+            }
+            if (ModelState.ErrorCount > 0)
+            {
+               return View(model);
+            }
+
             model.Persist();
             return RedirectToAction(actionName: nameof(Index));
         }

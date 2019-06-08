@@ -13,7 +13,7 @@ namespace CoderGirl_MVCMovies.ViewModels.Movies
             return RepositoryFactory.GetMovieRepository()
                 .GetModels()
                 .Cast<Models.Movie>()
-                .Select(director => GetMovieListItemFromMovie(director))
+                .Select(movie => GetMovieListItemFromMovie(movie))
                 .ToList();
         }
 
@@ -26,7 +26,7 @@ namespace CoderGirl_MVCMovies.ViewModels.Movies
                 DirectorName = movie.DirectorName,
                 Year = movie.Year,
                 Ratings = RepositoryFactory.GetMovieRatingRepository().GetModels().Cast<Models.MovieRating>()
-                                                .Where(rating => rating.MovieId == movie.Id)
+                                                .Where(rating => rating.MovieName == movie.Name)
                                                 .Select(rating => rating.Rating)
                                                 .ToList(),
         };

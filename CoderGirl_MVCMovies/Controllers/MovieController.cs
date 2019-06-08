@@ -18,6 +18,7 @@ namespace CoderGirl_MVCMovies.Controllers
         public IActionResult Index()
         {
             var movies = MovieListItemViewModel.GetMovieList();
+            
             return View(movies);
         }
 
