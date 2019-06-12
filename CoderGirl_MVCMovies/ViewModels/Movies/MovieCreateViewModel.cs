@@ -28,9 +28,8 @@ namespace CoderGirl_MVCMovies.ViewModels.Movies
         public string Name { get; set; }
         public int DirectorId { get; set; }
         public List<Director> Directors { get; set; }
-        public int Year { get; set; }
+        public int Year { get; set; }        
 
-        
         private MovieCreateViewModel(List<Director> directors)
         {
             this.Directors = directors;
@@ -38,7 +37,7 @@ namespace CoderGirl_MVCMovies.ViewModels.Movies
 
         public void Persist()
         {
-            Models.Movie movie = new Models.Movie
+            Movie movie = new Movie
             {
                 Name = this.Name,
                 DirectorId = this.DirectorId,
