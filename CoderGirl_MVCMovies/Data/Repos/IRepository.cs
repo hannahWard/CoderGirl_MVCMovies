@@ -6,16 +6,12 @@ using System.Threading.Tasks;
 
 namespace CoderGirl_MVCMovies.Data
 {
-    public interface IDirectorRepository
+    public interface IRepository<T>
     {
-        int Save(Director director);
-
-        List<Director> GetDirectors();
-
-        Director GetById(int id);
-
-        void Update(Director director);
-
+        T GetById(int id);
+        List<T> GetModels();
+        int Save(T model);
         void Delete(int id);
+        void Update(T model);
     }
 }

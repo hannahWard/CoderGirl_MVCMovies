@@ -1,10 +1,12 @@
-﻿@model CoderGirl_MVCMovies.Models.Movie
+﻿@model CoderGirl_MVCMovies.ViewModels.Movies.MovieEditViewModel
 
 @{
     ViewData["Title"] = "Edit";
 }
 
 <h1>Edit</h1>
+
+<h4>MovieEditViewModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -12,21 +14,21 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
-                <input readonly asp-for="Name" class="form-control" value="@Model.Name" />
+                <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DirectorName" class="control-label"></label>
-                <input asp-for="DirectorName" class="form-control" value="@Model.DirectorName" />
-                <span asp-validation-for="DirectorName" class="text-danger"></span>
+                <label asp-for="DirectorId" class="control-label"></label>
+                <input asp-for="DirectorId" class="form-control" />
+                <span asp-validation-for="DirectorId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Year" class="control-label"></label>
-                <input asp-for="Year" class="form-control" value="@Model.Year" />
+                <input asp-for="Year" class="form-control" />
                 <span asp-validation-for="Year" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Update Movie" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -36,3 +38,6 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
