@@ -38,11 +38,6 @@ namespace CoderGirl_MVCMovies
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<RepositoryFactory>();
 
-            Assembly.GetExecutingAssembly().GetTypes()
-                       .Where(t => t.Namespace?.StartsWith("CoderGirl_MVCMovies.ViewModels") ?? false)
-                       .ToList()
-                       .ForEach(T => services.AddScoped(T));
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
