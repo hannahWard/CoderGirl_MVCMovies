@@ -11,27 +11,23 @@ namespace CoderGirl_MVCMovies.ViewModels.Movies
 {
     public class MovieEditViewModel
     {
-        private readonly RepositoryFactory repositoryFactory;
-
         public string Name { get; set; }
         public int DirectorId { get; set; }
-        public SelectList Directors { get { return GetDirectorList(); } }
+        public SelectList Directors { get; set; }
         public int Year { get; set; }
 
-        public MovieEditViewModel([FromServices]RepositoryFactory repositoryFactory)
-        {
-            this.repositoryFactory = repositoryFactory;
-        }
+        public MovieEditViewModel() { }
 
-        public MovieEditViewModel(int id)
+        public MovieEditViewModel(int id, MoviesDbContext context)
         {
-            Movie movie=repositoryFactory.GetMovieRepository().GetById(id);
+            Movie movie=context.Movies.Find(id);
             this.DirectorId = movie.DirectorId;
             this.Year = movie.Year;
             this.Name = movie.Name;
+            this.Directors = GetDirectorList(context);
         }
 
-        public void Persist(int id)
+        public void Persist(int id, MoviesDbContext context)
         {
             Models.Movie movie = new Models.Movie
             {
@@ -40,14 +36,18 @@ namespace CoderGirl_MVCMovies.ViewModels.Movies
                 DirectorId = this.DirectorId,
                 Year = this.Year
             };
-            repositoryFactory.GetMovieRepository().Save(movie);
+            context.Add(movie);
+            context.SaveChanges();
         }
 
-        private SelectList GetDirectorList()
+        private SelectList GetDirectorList(MoviesDbContext context)
         {
-            var directors = repositoryFactory.GetDirectorRepository()
-                .GetModels();
-            return new SelectList(directors, "Id", "FullName", this.DirectorId);
+            return new SelectList(context.Directors, "Id", "FullName", this.DirectorId);
+        }
+
+        internal void ResetDirectorList(MoviesDbContext context)
+        {
+            this.Directors = GetDirectorList(context);
         }
     }
 }

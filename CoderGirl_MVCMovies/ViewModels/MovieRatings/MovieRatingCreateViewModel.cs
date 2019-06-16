@@ -12,16 +12,16 @@ namespace CoderGirl_MVCMovies.ViewsModels.MovieRatings
     public class MovieRatingCreateViewModel
     {
         private string ratings = "12345";
-        private readonly RepositoryFactory repositoryFactory;
+        private readonly MoviesDbContext context;
 
         public int MovieId { get; set; }
         public string MovieName { get; set; }
         public int Rating { get; set; }
         public SelectList Ratings { get { return GetRatings(); } }
 
-        public MovieRatingCreateViewModel(RepositoryFactory repositoryFactory)
+        public MovieRatingCreateViewModel(MoviesDbContext context)
         {
-            this.repositoryFactory = repositoryFactory;
+            this.context = context;
         }
 
         private SelectList GetRatings()
@@ -37,7 +37,8 @@ namespace CoderGirl_MVCMovies.ViewsModels.MovieRatings
                 MovieId = this.MovieId,
                 Rating = this.Rating
             };
-            repositoryFactory.GetMovieRatingRepository().Save(rating);
+            context.Add(rating);
+            context.SaveChanges();
         }
     }
 }

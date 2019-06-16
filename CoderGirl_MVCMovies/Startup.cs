@@ -36,7 +36,6 @@ namespace CoderGirl_MVCMovies
             services.AddDbContext<MoviesDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddScoped<RepositoryFactory>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
