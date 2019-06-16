@@ -14,13 +14,12 @@ namespace CoderGirl_MVCMovies.ViewModels.Movies
 
         public string Name { get; set; }
         public int DirectorId { get; set; }
-        public SelectList Directors { get; set; }
+        public SelectList Directors { get { return GetDirectorList(); } }
         public int Year { get; set; }
 
         public MovieCreateViewModel(RepositoryFactory repositoryFactory)
         {
             this.repositoryFactory = repositoryFactory;
-            this.Directors = GetDirectorList();
         }
 
         public void Persist()
