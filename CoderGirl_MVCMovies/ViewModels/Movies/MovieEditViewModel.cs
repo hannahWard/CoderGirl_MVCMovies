@@ -1,5 +1,6 @@
 ﻿using CoderGirl_MVCMovies.Data;
 using CoderGirl_MVCMovies.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace CoderGirl_MVCMovies.ViewModels.Movies
         public SelectList Directors { get { return GetDirectorList(); } }
         public int Year { get; set; }
 
-        public MovieEditViewModel(RepositoryFactory repositoryFactory)
+        public MovieEditViewModel([FromServices]RepositoryFactory repositoryFactory)
         {
             this.repositoryFactory = repositoryFactory;
         }

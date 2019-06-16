@@ -1,5 +1,6 @@
 ﻿using CoderGirl_MVCMovies.Data;
 using CoderGirl_MVCMovies.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace CoderGirl_MVCMovies.ViewModels.Movies
 
         public string Name { get; set; }
         public int DirectorId { get; set; }
-        public SelectList Directors { get { return GetDirectorList(); } }
+        public IEnumerable<SelectListItem> Directors { get { return GetDirectorList(); } }
         public int Year { get; set; }
 
         public MovieCreateViewModel(RepositoryFactory repositoryFactory)
@@ -33,11 +34,12 @@ namespace CoderGirl_MVCMovies.ViewModels.Movies
             repositoryFactory.GetMovieRepository().Save(movie);
         }
 
-        private SelectList GetDirectorList()
+        private IEnumerable<SelectListItem> GetDirectorList()
         {
-            var directors = repositoryFactory.GetDirectorRepository()
-                .GetModels();
-            return new SelectList(directors, "Id", "FullName", this.DirectorId);
+            return repositoryFactory.GetDirectorRepository()
+                .GetModels()
+                .Select(d => new SelectListItem(d.FullName, d.Id.ToString(), d.Id == this.DirectorId));
+            //return new SelectList(directors, "Id", "FullName", this.DirectorId);
         }
     }
 }
