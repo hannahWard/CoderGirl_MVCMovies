@@ -11,8 +11,17 @@ namespace CoderGirl_MVCMovies.ViewModels.Movies
 {
     public class MovieListItemViewModel
     {
+        public static List<MovieListItemViewModel> GetMovies(RepositoryFactory factory)
+        {
+            return factory.GetMovieRepository()
+                .GetModels()
+                .Select(m => new MovieListItemViewModel(m))
+                .ToList();
+        }
+
         [HiddenInput(DisplayValue = false)]
         public int Id { get; set; }
+
         public string Name { get; set; }
         public int Year { get; set; }
         public string DirectorName { get; set; }

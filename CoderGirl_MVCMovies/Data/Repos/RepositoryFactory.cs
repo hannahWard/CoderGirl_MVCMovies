@@ -6,34 +6,28 @@ using System.Threading.Tasks;
 
 namespace CoderGirl_MVCMovies.Data
 {
-    public static class RepositoryFactory
+    public class RepositoryFactory
     {
-        private static IRepository<MovieRating> movieRatingRepository;
-        private static IRepository<Movie> movieRepository;
-        private static IRepository<Director> directorRepository;
+        private MoviesDbContext context;
 
-        private static MoviesDbContext context;
-
-
-        public static IRepository<MovieRating> GetMovieRatingRepository()
+        public RepositoryFactory(MoviesDbContext context)
         {
-            if (movieRatingRepository == null)
-                movieRatingRepository = new Repository<MovieRating>(context);
-            return movieRatingRepository;
+            this.context = context;
         }
 
-        public static IRepository<Movie> GetMovieRepository()
+        public IRepository<MovieRating> GetMovieRatingRepository()
         {
-            if (movieRepository == null)
-                movieRepository = new Repository<Movie>(context);
-            return movieRepository;
+                return new Repository<MovieRating>(context);
         }
 
-        public static IRepository<Director> GetDirectorRepository()
+        public IRepository<Movie> GetMovieRepository()
         {
-            if (directorRepository == null)
-                directorRepository = new Repository<Director>(context);
-            return directorRepository;
+            return new Repository<Movie>(context);
+        }
+
+        public IRepository<Director> GetDirectorRepository()
+        {
+            return new Repository<Director>(context);
         }
     }
 }

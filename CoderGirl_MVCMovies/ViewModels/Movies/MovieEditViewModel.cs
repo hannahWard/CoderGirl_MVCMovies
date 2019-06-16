@@ -9,14 +9,22 @@ namespace CoderGirl_MVCMovies.ViewModels.Movies
 {
     public class MovieEditViewModel
     {
+        private readonly RepositoryFactory repositoryFactory;
+
         public string Name { get; set; }
         public int DirectorId { get; set; }
         public List<Director> Directors { get; set; }
         public int Year { get; set; }
 
+        public MovieEditViewModel(RepositoryFactory repositoryFactory)
+        {
+            this.Directors = GetDirectorList();
+            this.repositoryFactory = repositoryFactory;
+        }
+
         public MovieEditViewModel(int id)
         {
-            Movie movie=RepositoryFactory.GetMovieRepository().GetById(id);
+            Movie movie=repositoryFactory.GetMovieRepository().GetById(id);
             this.DirectorId = movie.DirectorId;
             this.Year = movie.Year;
             this.Name = movie.Name;
@@ -32,12 +40,12 @@ namespace CoderGirl_MVCMovies.ViewModels.Movies
                 DirectorId = this.DirectorId,
                 Year = this.Year
             };
-            RepositoryFactory.GetMovieRepository().Save(movie);
+            repositoryFactory.GetMovieRepository().Save(movie);
         }
 
         private List<Director> GetDirectorList()
         {
-            return RepositoryFactory.GetDirectorRepository()
+            return repositoryFactory.GetDirectorRepository()
                 .GetModels();
         }
     }

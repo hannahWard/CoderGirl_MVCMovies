@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CoderGirl_MVCMovies.Data;
-using CoderGirl_MVCMovies.Models;
 using CoderGirl_MVCMovies.ViewModels.Movies;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,38 +10,31 @@ namespace CoderGirl_MVCMovies.Controllers
 {
     public class MovieController : Controller
     {
-        static IRepository<Movie> movieRepository = RepositoryFactory.GetMovieRepository();
-        static IRepository<Director> directorRepository = RepositoryFactory.GetDirectorRepository();
+        private RepositoryFactory repositoryFactory;
+
+        public MovieController(RepositoryFactory repositoryFactory)
+        {
+            this.repositoryFactory = repositoryFactory;
+        }
 
         public IActionResult Index()
         {
-            List<Movie> movies = movieRepository.GetModels();
+            List<MovieListItemViewModel> movies = MovieListItemViewModel.GetMovies(repositoryFactory);
             return View(movies);
         }
 
         [HttpGet]
         public IActionResult Create()
         {
-            MovieCreateViewModel model = new MovieCreateViewModel();
+            MovieCreateViewModel model = new MovieCreateViewModel(repositoryFactory);
             return View(model);
         }
 
         [HttpPost]
         public IActionResult Create(MovieCreateViewModel model)
         {
-            if (String.IsNullOrWhiteSpace(model.Name))
-            {
-                ModelState.AddModelError("Name", "Name must be included");
-            }
-            if(model.Year < 1888 || model.Year > DateTime.Now.Year)
-            {
-                ModelState.AddModelError("Year", "Year is not valid");
-            }
-
-            if(ModelState.ErrorCount > 0)
-            {
+            if (!ModelState.IsValid)
                 return View(model);
-            }
 
             model.Persist();
             return RedirectToAction(actionName: nameof(Index));
@@ -57,6 +49,9 @@ namespace CoderGirl_MVCMovies.Controllers
         [HttpPost]
         public IActionResult Edit(int id, MovieEditViewModel movie)
         {
+            if (!ModelState.IsValid)
+                return View(movie);
+
             movie.Persist(id);
             return RedirectToAction(actionName: nameof(Index));
         }
@@ -64,7 +59,7 @@ namespace CoderGirl_MVCMovies.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            movieRepository.Delete(id);
+            repositoryFactory.GetMovieRepository().Delete(id);
             return RedirectToAction(actionName: nameof(Index));
         }
     }
