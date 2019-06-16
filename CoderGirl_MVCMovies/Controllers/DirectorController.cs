@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CoderGirl_MVCMovies.Data;
 using CoderGirl_MVCMovies.Models;
+using CoderGirl_MVCMovies.ViewModels.Directors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CoderGirl_MVCMovies.Controllers
@@ -20,7 +21,7 @@ namespace CoderGirl_MVCMovies.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            List<Director> directors = repositoryFactory.GetDirectorRepository().GetModels().Cast<Director>().ToList();
+            List<DirectorListItemViewModel> directors = DirectorListItemViewModel.GetDirectors(repositoryFactory);
             return View(directors);
         }
 
@@ -31,9 +32,9 @@ namespace CoderGirl_MVCMovies.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Director director)
+        public IActionResult Create(DirectorCreateViewModel director)
         {
-            repositoryFactory.GetDirectorRepository().Save(director);
+            director.Persist(repositoryFactory);
             return RedirectToAction(actionName: nameof(Index));
         }
     }
