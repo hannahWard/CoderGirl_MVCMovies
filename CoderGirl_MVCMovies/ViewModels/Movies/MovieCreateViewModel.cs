@@ -19,8 +19,8 @@ namespace CoderGirl_MVCMovies.ViewModels.Movies
 
         public MovieCreateViewModel(RepositoryFactory repositoryFactory)
         {
-            this.Directors = GetDirectorList();
             this.repositoryFactory = repositoryFactory;
+            this.Directors = GetDirectorList();
         }
 
         public void Persist()

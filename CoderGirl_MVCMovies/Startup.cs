@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using CoderGirl_MVCMovies.Data;
 using Microsoft.AspNetCore.Builder;
@@ -36,6 +37,11 @@ namespace CoderGirl_MVCMovies
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<RepositoryFactory>();
+
+            Assembly.GetExecutingAssembly().GetTypes()
+                       .Where(t => t.Namespace?.StartsWith("CoderGirl_MVCMovies.ViewModels") ?? false)
+                       .ToList()
+                       .ForEach(T => services.AddScoped(T));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
