@@ -30,7 +30,7 @@ namespace CoderGirl_MVCMovies.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            model.Persist();
+            model.Persist(context);
             return RedirectToAction(controllerName: "Movie", actionName: "Index");
         }
     }
