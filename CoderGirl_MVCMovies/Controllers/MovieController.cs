@@ -36,7 +36,7 @@ namespace CoderGirl_MVCMovies.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            model.Persist();
+            model.Persist(repositoryFactory);
             return RedirectToAction(actionName: nameof(Index));
         }
 
@@ -52,7 +52,7 @@ namespace CoderGirl_MVCMovies.Controllers
             if (!ModelState.IsValid)
                 return View(movie);
 
-            movie.Persist(id);
+            movie.Persist(id, repositoryFactory);
             return RedirectToAction(actionName: nameof(Index));
         }
 
