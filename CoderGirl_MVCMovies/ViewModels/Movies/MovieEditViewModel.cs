@@ -15,23 +15,25 @@ namespace CoderGirl_MVCMovies.ViewModels.Movies
 
         public string Name { get; set; }
         public int DirectorId { get; set; }
-        public SelectList Directors { get { return GetDirectorList(); } }
+        public SelectList Directors { get; set; }
         public int Year { get; set; }
 
-        public MovieEditViewModel([FromServices]RepositoryFactory repositoryFactory)
+        public MovieEditViewModel() { }
+
+        public MovieEditViewModel(RepositoryFactory repositoryFactory)
         {
-            this.repositoryFactory = repositoryFactory;
+            this.Directors = GetDirectorList(repositoryFactory);
         }
 
         public MovieEditViewModel(int id)
         {
             Movie movie=repositoryFactory.GetMovieRepository().GetById(id);
-            this.DirectorId = movie.DirectorId;
+            this.DirectorId = movie.Director.Id;
             this.Year = movie.Year;
             this.Name = movie.Name;
         }
 
-        public void Persist(int id)
+        public void Persist(int id, RepositoryFactory repositoryFactory)
         {
             Models.Movie movie = new Models.Movie
             {
@@ -43,7 +45,12 @@ namespace CoderGirl_MVCMovies.ViewModels.Movies
             repositoryFactory.GetMovieRepository().Save(movie);
         }
 
-        private SelectList GetDirectorList()
+        public void ResetDirectorList(RepositoryFactory repositoryFactory)
+        {
+            GetDirectorList(repositoryFactory);
+        }
+
+        private SelectList GetDirectorList(RepositoryFactory repositoryFactory)
         {
             var directors = repositoryFactory.GetDirectorRepository()
                 .GetModels();

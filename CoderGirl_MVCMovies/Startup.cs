@@ -34,8 +34,9 @@ namespace CoderGirl_MVCMovies
             });
 
             services.AddDbContext<MoviesDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                    options.UseLazyLoadingProxies()
+                        .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddScoped<RepositoryFactory>();
 
             Assembly.GetExecutingAssembly().GetTypes()

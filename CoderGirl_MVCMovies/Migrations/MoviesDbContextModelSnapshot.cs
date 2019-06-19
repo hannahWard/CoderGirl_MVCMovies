@@ -77,7 +77,7 @@ namespace CoderGirl_MVCMovies.Migrations
             modelBuilder.Entity("CoderGirl_MVCMovies.Models.Movie", b =>
                 {
                     b.HasOne("CoderGirl_MVCMovies.Models.Director", "Director")
-                        .WithMany()
+                        .WithMany("Movies")
                         .HasForeignKey("DirectorId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
