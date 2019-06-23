@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,10 +12,16 @@ namespace CoderGirl_MVCMovies.ViewModels.Movies
 {
     public class MovieCreateViewModel
     {
-
+        [Required(ErrorMessage ="Some customer error message")]
         public string Name { get; set; }
+
+        [Display(Name="Select Director")]
         public int DirectorId { get; set; }
         public SelectList Directors { get; set; }
+
+        [Required]
+        [Range(1887, 2020, ErrorMessage ="Error")]
+        [Display(Name="Year")]
         public int Year { get; set; }
 
         public MovieCreateViewModel(MoviesDbContext context)
