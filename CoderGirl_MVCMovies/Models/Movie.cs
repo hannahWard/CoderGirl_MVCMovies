@@ -12,6 +12,6 @@ namespace CoderGirl_MVCMovies.Models
         public int Year { get; set; }
         public List<MovieRating> Ratings { get; set; }
         public int DirectorId { get; set; }
-        public Director Director { get; set; }
+        public List<Director> Directors { get; set; }
     }
 }

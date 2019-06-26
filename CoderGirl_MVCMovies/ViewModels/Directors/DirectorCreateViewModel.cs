@@ -26,7 +26,8 @@ namespace CoderGirl_MVCMovies.ViewModels.Directors
                 BirthDate = this.BirthDate,
                 Nationality = this.Nationality
             };
-            context.GetDirectorRepository().Save(director);
+            context.Add(director);
+            context.SaveChanges();
         }
     }
 }
