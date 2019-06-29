@@ -45,7 +45,7 @@ namespace CoderGirl_MVCMovies.Controllers
         }
 
         [HttpGet]
-        public IActionResult Edit(int id)
+        public IActionResult Edit(int id, MoviesDbContext context)
         {            
             return View(new MovieEditViewModel(id, context));
         }

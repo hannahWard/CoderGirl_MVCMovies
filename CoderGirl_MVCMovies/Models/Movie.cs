@@ -8,10 +8,10 @@ namespace CoderGirl_MVCMovies.Models
     public class Movie : IModel
     {
         public int Id { set; get; }
+        [Unique]
         public string Name { get; set; }
         public int Year { get; set; }
         public List<MovieRating> Ratings { get; set; }
-        public int DirectorId { get; set; }
-        public List<Director> Directors { get; set; }
+        public List<DirectorMovie> DirectorMovies { get; set; }
     }
 }

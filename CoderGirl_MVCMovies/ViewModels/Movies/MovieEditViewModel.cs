@@ -12,8 +12,8 @@ namespace CoderGirl_MVCMovies.ViewModels.Movies
     public class MovieEditViewModel
     {
         public string Name { get; set; }
-        public int DirectorId { get; set; }
-        public SelectList Directors { get; set; }
+        public int[] DirectorIds { get; set; }
+        public List<Director> Directors { get; set; }
         public int Year { get; set; }
 
         public MovieEditViewModel() { }
@@ -21,10 +21,10 @@ namespace CoderGirl_MVCMovies.ViewModels.Movies
         public MovieEditViewModel(int id, MoviesDbContext context)
         {
             Movie movie=context.Movies.Find(id);
-            this.DirectorId = movie.DirectorId;
+            //this.DirectorId = movie.DirectorId;
             this.Year = movie.Year;
             this.Name = movie.Name;
-            this.Directors = GetDirectorList(context);
+            this.Directors = movie.DirectorMovies.Select(dm => dm.Director).ToList();
         }
 
         public void Persist(int id, MoviesDbContext context)
@@ -33,16 +33,11 @@ namespace CoderGirl_MVCMovies.ViewModels.Movies
             {
                 Id = id,
                 Name = this.Name,
-                DirectorId = this.DirectorId,
+                DirectorMovies = 
                 Year = this.Year
             };
             context.Add(movie);
             context.SaveChanges();
-        }
-
-        private SelectList GetDirectorList(MoviesDbContext context)
-        {
-            return new SelectList(context.Directors, "Id", "FullName", this.DirectorId);
         }
 
         internal void ResetDirectorList(MoviesDbContext context)

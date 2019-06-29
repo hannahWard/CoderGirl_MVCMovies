@@ -16,5 +16,12 @@ namespace CoderGirl_MVCMovies.Data
 
         public MoviesDbContext(DbContextOptions<MoviesDbContext> options)
             : base(options) {   }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<Movie>()
+                .HasIndex(u => u.Name)
+                .IsUnique();
+        }
     }
 }
