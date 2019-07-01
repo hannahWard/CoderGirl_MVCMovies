@@ -5,11 +5,12 @@ using System.Threading.Tasks;
 
 namespace CoderGirl_MVCMovies.Models
 {
-    public class MovieRating : IModel
+    public class DirectorMovie
     {
         public int Id { get; set; }
-        public int Rating { get; set; }
         public int MovieId { get; set; }
+        public int DirectorId { get; set; }
+        public Director Director { get; set; }
         public Movie Movie { get; set; }
     }
 }
